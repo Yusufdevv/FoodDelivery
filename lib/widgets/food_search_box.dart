@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/filter/filter_screen.dart';
 
 class FoodSearchBox extends StatelessWidget {
   const FoodSearchBox({
@@ -36,9 +37,14 @@ class FoodSearchBox extends StatelessWidget {
             width: 50,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).primaryColor,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, FiltersScreen.routeName);
+              },
+              icon: Icon(
+                Icons.menu,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
           )
         ],

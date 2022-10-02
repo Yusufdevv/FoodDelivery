@@ -17,8 +17,8 @@ class AppRouter {
         return CheckoutScreen.route();
       case DeliveryTimeScreen.routeName:
         return DeliveryTimeScreen.route();
-      case FilterScreen.routeName:
-        return FilterScreen.route();
+      case FiltersScreen.routeName:
+        return FiltersScreen.route();
       case RestaurantDetailsScreen.routeName:
         return RestaurantDetailsScreen.route(
             restaurant: settings.arguments as Restaurant);
