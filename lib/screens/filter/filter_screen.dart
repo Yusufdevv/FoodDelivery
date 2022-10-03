@@ -56,13 +56,17 @@ class FiltersScreen extends StatelessWidget {
 
                           List<Restaurant> restaurants = Restaurant.restaurants
                               .where(
-                                (restaurant) => categories.any((category) =>
-                                    restaurant.tags.contains(category)),
+                                (restaurant) => categories.any(
+                                  (category) =>
+                                      restaurant.tags.contains(category),
+                                ),
                               )
                               .where(
-                                (restaurant) => prices.any((price) =>
-                                    restaurant.priceCategory.contains(price)),
-                                )
+                                (restaurant) => prices.any(
+                                  (price) =>
+                                      restaurant.priceCategory.contains(price),
+                                ),
+                              )
                               .toList();
 
                           Navigator.pushNamed(
