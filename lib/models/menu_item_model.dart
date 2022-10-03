@@ -42,7 +42,7 @@ class MenuItem extends Equatable {
       name: '4 Formaggi',
       category: 'Pizza',
       description: 'Tomatoes, mozzarella, basil',
-      price: 4.99,
+      price: 4.9,
     ),
     const MenuItem(
       id: 3,
