@@ -9,6 +9,7 @@ import 'package:project/repository/places/places_repository.dart';
 import 'package:project/screens/screens.dart';
 
 import 'blocs/autocomplete/autocomplete_bloc.dart';
+import 'blocs/filters/filters_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) => PlaceBloc(
                   placesRepository: context.read<PlacesRepository>())),
+          BlocProvider(
+              create: (context) => FiltersBloc()..add(FilterLoadEvent())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
