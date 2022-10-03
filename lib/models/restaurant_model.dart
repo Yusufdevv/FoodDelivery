@@ -8,6 +8,7 @@ class Restaurant extends Equatable {
   final List<String> tags;
   final List<MenuItem> menuItems;
   final int deliveryTime;
+  final String priceCategory;
   final double deliveryFee;
   final double distance; // TODO: Calculate distance between user and restaurant
 
@@ -17,6 +18,7 @@ class Restaurant extends Equatable {
     required this.tags,
     required this.menuItems,
     required this.deliveryTime,
+    required this.priceCategory,
     required this.deliveryFee,
     required this.distance,
   });
@@ -29,6 +31,7 @@ class Restaurant extends Equatable {
       tags,
       menuItems,
       deliveryTime,
+      priceCategory,
       deliveryFee,
       distance,
     ];
@@ -48,6 +51,7 @@ class Restaurant extends Equatable {
           .where((menuItem) => menuItem.restaurantId == 1)
           .toList(),
       deliveryTime: 30,
+      priceCategory: "\$",
       deliveryFee: 2.99,
       distance: 0.1,
     ),
@@ -63,6 +67,7 @@ class Restaurant extends Equatable {
           .where((menuItem) => menuItem.restaurantId == 2)
           .toList(),
       deliveryTime: 30,
+      priceCategory: "\$",
       deliveryFee: 2.99,
       distance: 0.1,
     ),
@@ -79,6 +84,7 @@ class Restaurant extends Equatable {
           .where((menuItem) => menuItem.restaurantId == 3)
           .toList(),
       deliveryTime: 30,
+      priceCategory: "\$",
       deliveryFee: 2.99,
       distance: 0.1,
     ),
@@ -95,6 +101,7 @@ class Restaurant extends Equatable {
           .where((menuItem) => menuItem.restaurantId == 4)
           .toList(),
       deliveryTime: 30,
+      priceCategory: "\$",
       deliveryFee: 2.99,
       distance: 0.1,
     ),
@@ -111,6 +118,7 @@ class Restaurant extends Equatable {
           .where((menuItem) => menuItem.restaurantId == 5)
           .toList(),
       deliveryTime: 30,
+      priceCategory: "\$",
       deliveryFee: 2.99,
       distance: 0.4,
     )
