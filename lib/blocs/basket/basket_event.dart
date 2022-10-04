@@ -26,6 +26,7 @@ class RemoveItem extends BasketEvent {
   @override
   List<Object> get props => [item];
 }
+
 class RemoveAllItem extends BasketEvent {
   final MenuItem item;
 
@@ -49,4 +50,13 @@ class AddVoucher extends BasketEvent {
 
   @override
   List<Object> get props => [voucher];
+}
+
+class SelectDeliveryTime extends BasketEvent {
+  final DeliveryTime deliveryTime;
+
+  const SelectDeliveryTime(this.deliveryTime);
+
+  @override
+  List<Object> get props => [deliveryTime];
 }
