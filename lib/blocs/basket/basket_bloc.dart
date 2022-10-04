@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import '../../models/delivery_time_model.dart';
 import '../../models/models.dart';
 
 part 'basket_event.dart';
@@ -26,6 +27,8 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       yield* _mapToggleSwitchToState(event, state);
     } else if (event is AddVoucher) {
       yield* _mapAddVoucherToState(event, state);
+    } else if (event is SelectDeliveryTime) {
+      yield* _mapSelectDeliveryTimeToState(event, state);
     }
   }
 
@@ -66,7 +69,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       } catch (_) {}
     }
   }
-  
+
   Stream<BasketState> _mapRemoveAllItemToState(
     RemoveAllItem event,
     BasketState state,
@@ -75,8 +78,8 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       try {
         yield BasketLoaded(
           basket: state.basket.copyWith(
-            items: List.from(state.basket.items)..removeWhere((item) => item == event.item)
-          ),
+              items: List.from(state.basket.items)
+                ..removeWhere((item) => item == event.item)),
         );
       } catch (_) {}
     }
@@ -102,6 +105,18 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       try {
         yield BasketLoaded(
             basket: state.basket.copyWith(voucher: event.voucher));
+      } catch (_) {}
+    }
+  }
+
+  Stream<BasketState> _mapSelectDeliveryTimeToState(
+    SelectDeliveryTime event,
+    BasketState state,
+  ) async* {
+    if (state is BasketLoaded) {
+      try {
+        yield BasketLoaded(
+            basket: state.basket.copyWith(deliveryTime: event.deliveryTime));
       } catch (_) {}
     }
   }

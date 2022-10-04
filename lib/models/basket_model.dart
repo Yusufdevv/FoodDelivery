@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+import 'package:project/models/delivery_time_model.dart';
 
 import 'package:project/models/models.dart';
 
@@ -7,21 +8,24 @@ class Basket extends Equatable {
   final List<MenuItem> items;
   final bool cutlery;
   final Voucher? voucher;
+  final DeliveryTime? deliveryTime;
 
   const Basket({
     this.items = const <MenuItem>[],
     this.cutlery = false,
     this.voucher,
+    this.deliveryTime
   });
 
   @override
-  List<Object?> get props => [items, cutlery, voucher];
+  List<Object?> get props => [items, cutlery, voucher,deliveryTime];
 
-  Basket copyWith({List<MenuItem>? items, bool? cutlery, Voucher? voucher}) {
+  Basket copyWith({List<MenuItem>? items, bool? cutlery, Voucher? voucher, DeliveryTime? deliveryTime}) {
     return Basket(
       items: items ?? this.items,
       cutlery: cutlery ?? this.cutlery,
       voucher: voucher ?? this.voucher,
+      deliveryTime: deliveryTime ?? this.deliveryTime,
     );
   }
 
