@@ -21,11 +21,14 @@ class BasketScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Basket'),
-        actions: [IconButton(onPressed: () {
-          Navigator.pushNamed(context, EditBasketScreen.routeName);
-        }, icon: const Icon(Icons.edit))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, EditBasketScreen.routeName);
+              },
+              icon: const Icon(Icons.edit))
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: SizedBox(
@@ -36,7 +39,6 @@ class BasketScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 shape: const RoundedRectangleBorder(),
-                backgroundColor: Theme.of(context).accentColor,
               ),
               child: const Text('Apply'),
               onPressed: () {},
@@ -52,7 +54,7 @@ class BasketScreen extends StatelessWidget {
             Text(
               'Cutlery',
               style: Theme.of(context).textTheme.headline4!.copyWith(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
             ),
             Container(
@@ -84,6 +86,7 @@ class BasketScreen extends StatelessWidget {
                       if (state is BasketLoaded) {
                         return SizedBox(
                           width: 100,
+                          // change color switchlistile
                           child: SwitchListTile(
                               dense: true,
                               value: state.basket.cutlery,
@@ -104,7 +107,7 @@ class BasketScreen extends StatelessWidget {
             Text(
               'Items',
               style: Theme.of(context).textTheme.headline4!.copyWith(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
             ),
             BlocBuilder<BasketBloc, BasketState>(
@@ -163,7 +166,9 @@ class BasketScreen extends StatelessWidget {
                                         .textTheme
                                         .headline5!
                                         .copyWith(
-                                          color: Theme.of(context).accentColor,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                         ),
                                   ),
                                   const SizedBox(
@@ -215,13 +220,17 @@ class BasketScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, DeliveryTimeScreen.routeName);
+                        },
                         child: Text(
                           'Change',
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
-                              .copyWith(color: Theme.of(context).primaryColor),
+                              .copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
                         ),
                       ),
                     ],
@@ -242,25 +251,43 @@ class BasketScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      Text(
-                        'Do you have a voucher?',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Apply',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ],
+                  BlocBuilder<BasketBloc, BasketState>(
+                    builder: (context, state) {
+                      if (state is BasketLoaded) {
+                        return state.basket.voucher == null
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    'Do you have a voucher?',
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, VoucherScreen.routeName);
+                                    },
+                                    child: Text(
+                                      'Apply',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Text('Your voucher is added!',
+                                style: Theme.of(context).textTheme.headline6);
+                      } else {
+                        return const Text('Something went wrong.');
+                      }
+                    },
                   ),
                   SvgPicture.asset('assets/delivery_time.svg'),
                 ],
@@ -324,7 +351,9 @@ class BasketScreen extends StatelessWidget {
                                   .textTheme
                                   .headline5!
                                   .copyWith(
-                                      color: Theme.of(context).primaryColor),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
                             ),
                             Text(
                               '\$${state.basket.totalString}',
@@ -332,7 +361,9 @@ class BasketScreen extends StatelessWidget {
                                   .textTheme
                                   .headline5!
                                   .copyWith(
-                                      color: Theme.of(context).primaryColor),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
                             ),
                           ],
                         ),

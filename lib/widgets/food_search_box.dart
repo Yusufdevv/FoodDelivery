@@ -21,7 +21,7 @@ class FoodSearchBox extends StatelessWidget {
                 contentPadding:
                     const EdgeInsets.only(left: 20, bottom: 5, right: 12.5),
                 suffixIcon:
-                    Icon(Icons.search, color: Theme.of(context).primaryColor),
+                    Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
@@ -43,7 +43,7 @@ class FoodSearchBox extends StatelessWidget {
               },
               icon: Icon(
                 Icons.menu,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           )

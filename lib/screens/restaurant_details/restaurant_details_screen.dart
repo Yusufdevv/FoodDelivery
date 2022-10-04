@@ -35,7 +35,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: const EdgeInsets.symmetric(horizontal: 50),
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   onPressed: () {
                     Navigator.pushNamed(
@@ -90,7 +90,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headline3!
-                .copyWith(color: Theme.of(context).accentColor),
+                .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
         ),
         Column(
@@ -123,7 +123,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                                     },
                                     icon: Icon(
                                       Icons.add_circle,
-                                      color: Theme.of(context).accentColor,
+                                      color: Theme.of(context).colorScheme.secondary,
                                     ));
                               },
                             )

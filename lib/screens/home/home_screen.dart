@@ -93,7 +93,6 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).primaryColor,
       leading: IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
