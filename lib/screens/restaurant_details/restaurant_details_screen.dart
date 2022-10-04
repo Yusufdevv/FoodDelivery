@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/models/models.dart';
 import 'package:project/screens/basket/basket_screen.dart';
 import 'package:project/widgets/widgets.dart';
+
+import '../../blocs/basket/basket_bloc.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
   final Restaurant restaurant;
@@ -112,12 +115,18 @@ class RestaurantDetailsScreen extends StatelessWidget {
                           children: [
                             Text('\$${menuItem.price}',
                                 style: Theme.of(context).textTheme.bodyText1),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.add_circle,
-                                  color: Theme.of(context).accentColor,
-                                ))
+                            BlocBuilder<BasketBloc, BasketState>(
+                              builder: (context, state) {
+                                return IconButton(
+                                    onPressed: () {
+                                      context.read<BasketBloc>().add(AddItem(menuItem));
+                                    },
+                                    icon: Icon(
+                                      Icons.add_circle,
+                                      color: Theme.of(context).accentColor,
+                                    ));
+                              },
+                            )
                           ],
                         ),
                       ),

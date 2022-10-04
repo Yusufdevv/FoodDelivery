@@ -15,67 +15,70 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 100,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: const CustomAppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: Category.categories.length,
+                    itemBuilder: (context, index) {
+                      return CategoryBox(category: Category.categories[index]);
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 125,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: Promo.promos.length,
+                    itemBuilder: (context, index) {
+                      return PromoBox(
+                        promo: Promo.promos[index],
+                      );
+                    },
+                  ),
+                ),
+              ),
+              const FoodSearchBox(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Top Rated',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: Category.categories.length,
-                  itemBuilder: (context, index) {
-                    return CategoryBox(category: Category.categories[index]);
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 125,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: Promo.promos.length,
-                  itemBuilder: (context, index) {
-                    return PromoBox(
-                      promo: Promo.promos[index],
-                    );
-                  },
-                ),
-              ),
-            ),
-            const FoodSearchBox(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Top Rated',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: Restaurant.restaurants.length,
-                  itemBuilder: (context, index) {
-                    return RestaurantCard(
-                      restaurant: Restaurant.restaurants[index],
-                    );
-                  }),
-            )
-          ],
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: Restaurant.restaurants.length,
+                    itemBuilder: (context, index) {
+                      return RestaurantCard(
+                        restaurant: Restaurant.restaurants[index],
+                      );
+                    }),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../blocs/basket/basket_bloc.dart';
+import '../screens.dart';
 
 class BasketScreen extends StatelessWidget {
   static const String routeName = '/basket';
@@ -19,7 +23,9 @@ class BasketScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Basket'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
+        actions: [IconButton(onPressed: () {
+          Navigator.pushNamed(context, EditBasketScreen.routeName);
+        }, icon: const Icon(Icons.edit))],
       ),
       bottomNavigationBar: BottomAppBar(
         child: SizedBox(
@@ -68,12 +74,29 @@ class BasketScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
-                  SizedBox(
-                    width: 100,
-                    child: SwitchListTile(
-                        dense: true,
-                        value: false,
-                        onChanged: (bool? newValue) {}),
+                  BlocBuilder<BasketBloc, BasketState>(
+                    builder: (context, state) {
+                      if (state is BasketLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (state is BasketLoaded) {
+                        return SizedBox(
+                          width: 100,
+                          child: SwitchListTile(
+                              dense: true,
+                              value: state.basket.cutlery,
+                              onChanged: (bool? newValue) {
+                                context
+                                    .read<BasketBloc>()
+                                    .add(const ToggleSwitch());
+                              }),
+                        );
+                      } else {
+                        return const Text("Something went wrong.");
+                      }
+                    },
                   ),
                 ],
               ),
@@ -84,46 +107,89 @@ class BasketScreen extends StatelessWidget {
                     color: Theme.of(context).accentColor,
                   ),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(top: 5),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5.0)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '1x',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              color: Theme.of(context).accentColor,
-                            ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Apple Pie',
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                      Text(
-                        '\$2.00',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ],
-                  ),
-                );
+            BlocBuilder<BasketBloc, BasketState>(
+              builder: (context, state) {
+                if (state is BasketLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is BasketLoaded) {
+                  return state.basket.items.isEmpty
+                      ? Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(top: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'No Items in the basket',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.basket
+                              .itemCuantity(state.basket.items)
+                              .keys
+                              .length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(top: 5),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5.0)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${state.basket.itemCuantity(state.basket.items).entries.elementAt(index).value}x',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                          color: Theme.of(context).accentColor,
+                                        ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      '${state.basket.itemCuantity(state.basket.items).keys.elementAt(index).name}',
+                                      textAlign: TextAlign.left,
+                                      style:
+                                          Theme.of(context).textTheme.headline6,
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${state.basket.itemCuantity(state.basket.items).keys.elementAt(index).price}',
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                } else {
+                  return const Text("Something went wrong.");
+                }
               },
             ),
             Container(
@@ -210,57 +276,72 @@ class BasketScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(5.0)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Subtotal',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Text(
-                        '\$20.00',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Delivery Fee',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Text(
-                        '\$20.00',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline5!
-                            .copyWith(color: Theme.of(context).primaryColor),
-                      ),
-                      Text(
-                        '\$40.00',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline5!
-                            .copyWith(color: Theme.of(context).primaryColor),
-                      ),
-                    ],
-                  ),
-                ],
+              child: BlocBuilder<BasketBloc, BasketState>(
+                builder: (context, state) {
+                  if (state is BasketLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (state is BasketLoaded) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Subtotal',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            Text(
+                              '\$${state.basket.subtotalString}',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Delivery Fee',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            Text(
+                              '\$5.00',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(
+                                      color: Theme.of(context).primaryColor),
+                            ),
+                            Text(
+                              '\$${state.basket.totalString}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(
+                                      color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Text('Something went wrong.');
+                  }
+                },
               ),
             ),
           ],
