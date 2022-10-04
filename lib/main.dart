@@ -7,11 +7,14 @@ import 'package:project/config/theme.dart';
 import 'package:project/repository/geolocation/geolocation_repository.dart';
 import 'package:project/repository/places/places_repository.dart';
 import 'package:project/screens/screens.dart';
+import 'package:project/simple_bloc_observer.dart';
 
 import 'blocs/autocomplete/autocomplete_bloc.dart';
+import 'blocs/basket/basket_bloc.dart';
 import 'blocs/filters/filters_bloc.dart';
 
 void main() {
+  Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
 
@@ -41,6 +44,8 @@ class MyApp extends StatelessWidget {
                   placesRepository: context.read<PlacesRepository>())),
           BlocProvider(
               create: (context) => FiltersBloc()..add(FilterLoadEvent())),
+          BlocProvider(
+              create: (context) => BasketBloc()..add(StartBasket())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
