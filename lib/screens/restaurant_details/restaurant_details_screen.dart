@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/models/models.dart';
+import 'package:project/screens/basket/basket_screen.dart';
 import 'package:project/widgets/widgets.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
 
   static Route route({required Restaurant restaurant}) {
     return MaterialPageRoute(
-        builder: (_) =>  RestaurantDetailsScreen(restaurant: restaurant,),
+        builder: (_) => RestaurantDetailsScreen(restaurant: restaurant),
         settings: const RouteSettings(name: routeName));
   }
 
@@ -33,7 +34,12 @@ class RestaurantDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 50),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      BasketScreen.routeName,
+                    );
+                  },
                   child: const Text('Basket'))
             ],
           ),
