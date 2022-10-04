@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../blocs/basket/basket_bloc.dart';
 
@@ -20,7 +19,6 @@ class EditBasketScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Edit Basket'),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -32,7 +30,7 @@ class EditBasketScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 shape: const RoundedRectangleBorder(),
-                backgroundColor: Theme.of(context).accentColor,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
               ),
               child: const Text('Done'),
               onPressed: () {},
@@ -48,7 +46,7 @@ class EditBasketScreen extends StatelessWidget {
             Text(
               'Items',
               style: Theme.of(context).textTheme.headline4!.copyWith(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
             ),
             BlocBuilder<BasketBloc, BasketState>(
@@ -87,7 +85,10 @@ class EditBasketScreen extends StatelessWidget {
                               .keys
                               .length,
                           itemBuilder: (context, index) {
-                            var menuItem = state.basket.itemCuantity(state.basket.items).keys.elementAt(index);
+                            var menuItem = state.basket
+                                .itemCuantity(state.basket.items)
+                                .keys
+                                .elementAt(index);
                             return Container(
                               width: double.infinity,
                               margin: const EdgeInsets.only(top: 5),
@@ -108,7 +109,9 @@ class EditBasketScreen extends StatelessWidget {
                                         .textTheme
                                         .headline5!
                                         .copyWith(
-                                          color: Theme.of(context).accentColor,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                         ),
                                   ),
                                   const SizedBox(

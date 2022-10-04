@@ -21,7 +21,6 @@ class FiltersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Filters'),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -41,7 +40,7 @@ class FiltersScreen extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5))),
                           padding: const EdgeInsets.symmetric(horizontal: 50),
-                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                         ),
                         onPressed: () {
                           var categories = state.filter.categoryFilters
@@ -93,7 +92,7 @@ class FiltersScreen extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .headline4!
-                  .copyWith(color: Theme.of(context).accentColor),
+                  .copyWith(color: Theme.of(context).colorScheme.secondary),
             ),
             const CustomPriceFilter(),
             Text(
@@ -101,7 +100,7 @@ class FiltersScreen extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .headline4!
-                  .copyWith(color: Theme.of(context).accentColor),
+                  .copyWith(color: Theme.of(context).colorScheme.secondary),
             ),
             const CustomCategoryFilter()
           ],

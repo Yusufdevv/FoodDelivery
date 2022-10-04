@@ -7,7 +7,7 @@ class DeliveryTimeScreen extends StatelessWidget {
 
   static Route route() {
     return MaterialPageRoute(
-        builder: (_) => DeliveryTimeScreen(),
+        builder: (_) => const DeliveryTimeScreen(),
         settings: const RouteSettings(name: routeName));
   }
 

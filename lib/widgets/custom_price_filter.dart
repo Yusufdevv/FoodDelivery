@@ -35,7 +35,7 @@ class CustomPriceFilter extends StatelessWidget {
                           vertical: 10, horizontal: 40),
                       decoration: BoxDecoration(
                           color: state.filter.priceFilters[price.key].value
-                              ? Theme.of(context).primaryColor.withAlpha(100)
+                              ? Theme.of(context).colorScheme.primary.withAlpha(100)
                               : Colors.white,
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(

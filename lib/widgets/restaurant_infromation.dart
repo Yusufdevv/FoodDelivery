@@ -20,7 +20,7 @@ class RestaurantInformation extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headline3!
-                .copyWith(color: Theme.of(context).accentColor),
+                .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           const SizedBox(height: 10),
           RestaurantTags(restaurant: restaurant),
