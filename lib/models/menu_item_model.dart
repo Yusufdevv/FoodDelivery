@@ -112,7 +112,7 @@ class MenuItem extends Equatable {
       id: 11,
       restaurantId: 4,
       name: 'Chocolate Cake',
-      category: 'Desser',
+      category: 'Dessert',
       description: 'A cake with chocolate',
       price: 9.99,
     )

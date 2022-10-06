@@ -28,11 +28,12 @@ class DeliveryTimeScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                shape: const RoundedRectangleBorder(),
-              ),
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  shape: const RoundedRectangleBorder()),
               child: const Text('Select'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             )
           ],
         )),
@@ -42,19 +43,13 @@ class DeliveryTimeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Choose a Date',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4!
-                  .copyWith(color: Theme.of(context).colorScheme.secondary),
-            ),
+            Text('Choose a Date',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4!
+                    .copyWith(color: Theme.of(context).colorScheme.secondary)),
             Container(
-              // width: double.infinity,
               margin: const EdgeInsets.symmetric(vertical: 10),
-              // decoration: BoxDecoration(
-              //     color: Colors.white,
-              //     borderRadius: BorderRadius.circular(5)),
               child: Row(
                 children: [
                   ElevatedButton(
@@ -79,13 +74,11 @@ class DeliveryTimeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              'Your Vouchers',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4!
-                  .copyWith(color: Theme.of(context).colorScheme.secondary),
-            ),
+            Text('Your Vouchers',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4!
+                    .copyWith(color: Theme.of(context).colorScheme.secondary)),
             Expanded(
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
@@ -99,18 +92,34 @@ class DeliveryTimeScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return BlocBuilder<BasketBloc, BasketState>(
                         builder: (context, state) {
-                          return Card(
-                            child: TextButton(
-                                onPressed: () {
-                                  context.read<BasketBloc>().add(
-                                      SelectDeliveryTime(
-                                          DeliveryTime.deliveryTimes[index]));
-                                },
-                                child: Text(
-                                  DeliveryTime.deliveryTimes[index].value,
-                                  style: Theme.of(context).textTheme.headline6,
-                                )),
-                          );
+                          if (state is BasketLoaded) {
+                            return Card(
+                              color: state.basket.deliveryTime ==
+                                      DeliveryTime.deliveryTimes[index]
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
+                              child: TextButton(
+                                  onPressed: () {
+                                    context.read<BasketBloc>().add(
+                                          SelectDeliveryTime(DeliveryTime
+                                              .deliveryTimes[index]),
+                                        );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(DeliveryTime
+                                                .deliveryTimes[index].value),
+                                            duration:
+                                                const Duration(seconds: 1)));
+                                  },
+                                  child: Text(
+                                      DeliveryTime.deliveryTimes[index].value,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6)),
+                            );
+                          } else {
+                            return const Text('Something went wrong.');
+                          }
                         },
                       );
                     }),

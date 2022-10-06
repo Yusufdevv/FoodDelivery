@@ -42,10 +42,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) => PlaceBloc(
                   placesRepository: context.read<PlacesRepository>())),
-          BlocProvider(
-              create: (context) => FiltersBloc()..add(FilterLoadEvent())),
-          BlocProvider(
-              create: (context) => BasketBloc()..add(StartBasket())),
+          BlocProvider(create: (context) => FiltersBloc()..add(LoadFilter())),
+          BlocProvider(create: (context) => BasketBloc()..add(StartBasket())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

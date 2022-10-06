@@ -8,12 +8,12 @@ abstract class FiltersState extends Equatable {
   List<Object> get props => [];
 }
 
-class FiltersLoading extends FiltersState {}
+class FilterLoading extends FiltersState {}
 
-class FiltersLoaded extends FiltersState {
+class FilterLoaded extends FiltersState {
   final Filter filter;
 
-  const FiltersLoaded({this.filter = const Filter()});
+  const FilterLoaded({this.filter = const Filter()});
 
   @override
   List<Object> get props => [filter];
