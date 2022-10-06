@@ -86,8 +86,8 @@ class BasketScreen extends StatelessWidget {
                       if (state is BasketLoaded) {
                         return SizedBox(
                           width: 100,
-                          // change color switchlistile
                           child: SwitchListTile(
+                            activeColor: Theme.of(context).colorScheme.primary,
                               dense: true,
                               value: state.basket.cutlery,
                               onChanged: (bool? newValue) {

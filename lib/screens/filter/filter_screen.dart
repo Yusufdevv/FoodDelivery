@@ -30,17 +30,18 @@ class FiltersScreen extends StatelessWidget {
             children: [
               BlocBuilder<FiltersBloc, FiltersState>(
                 builder: (context, state) {
-                  if (state is FiltersLoading) {
+                  if (state is FilterLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  if (state is FiltersLoaded) {
+                  if (state is FilterLoaded) {
                     return ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5))),
                           padding: const EdgeInsets.symmetric(horizontal: 50),
-                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                         ),
                         onPressed: () {
                           var categories = state.filter.categoryFilters

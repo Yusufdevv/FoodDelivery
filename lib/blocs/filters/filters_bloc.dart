@@ -6,57 +6,50 @@ part 'filters_event.dart';
 part 'filters_state.dart';
 
 class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
-  FiltersBloc() : super(FiltersLoading());
-
-  @override
-  Stream<FiltersState> mapEventToState(FiltersEvent event) async* {
-    if (event is FilterLoadEvent) {
-      yield* _mapFilterLoadEventToState();
-    }
-    if (event is CategoryFilterUpdatedEvent) {
-      yield* _mapCategoryFilterUpdatedEventToState(event, state);
-    }
-    if (event is PriceFilterUpdatedEvent) {
-      yield* _mapPriceFilterUpdatedEventToState(event, state);
-    }
+  FiltersBloc() : super(FilterLoading()) {
+    on<LoadFilter>(_onLoadFilter);
+    on<UpdateCategoryFilter>(_onUpdateCategoryFilter);
+    on<UpdatePriceFilter>(_onUpdatePriceFilterFilter);
   }
 
-  Stream<FiltersState> _mapFilterLoadEventToState() async* {
-    yield FiltersLoaded(
+  void _onLoadFilter(LoadFilter event, Emitter<FiltersState> emit) {
+    emit(FilterLoaded(
         filter: Filter(
             categoryFilters: CategoryFilter.filters,
-            priceFilters: PriceFilter.filters));
+            priceFilters: PriceFilter.filters)));
   }
 
-  Stream<FiltersState> _mapCategoryFilterUpdatedEventToState(
-      CategoryFilterUpdatedEvent event, FiltersState state) async* {
-    if (state is FiltersLoaded) {
+  void _onUpdateCategoryFilter(
+      UpdateCategoryFilter event, Emitter<FiltersState> emit) {
+    final state = this.state;
+    if (state is FilterLoaded) {
       final List<CategoryFilter> updateCategoryFilters =
           state.filter.categoryFilters.map((categoryFilter) {
         return categoryFilter.id == event.categoryFilter.id
             ? event.categoryFilter
             : categoryFilter;
       }).toList();
-      yield FiltersLoaded(
+      emit(FilterLoaded(
           filter: Filter(
               categoryFilters: updateCategoryFilters,
-              priceFilters: state.filter.priceFilters));
+              priceFilters: state.filter.priceFilters)));
     }
   }
 
-  Stream<FiltersState> _mapPriceFilterUpdatedEventToState(
-      PriceFilterUpdatedEvent event, FiltersState state) async* {
-    if (state is FiltersLoaded) {
+  void _onUpdatePriceFilterFilter(
+      UpdatePriceFilter event, Emitter<FiltersState> emit) {
+    final state = this.state;
+    if (state is FilterLoaded) {
       final List<PriceFilter> updatePriceFilters =
           state.filter.priceFilters.map((priceFilter) {
         return priceFilter.id == event.priceFilter.id
             ? event.priceFilter
             : priceFilter;
       }).toList();
-      yield FiltersLoaded(
+      emit(FilterLoaded(
           filter: Filter(
               categoryFilters: state.filter.categoryFilters,
-              priceFilters: updatePriceFilters));
+              priceFilters: updatePriceFilters)));
     }
   }
 }

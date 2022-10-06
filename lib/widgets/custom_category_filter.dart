@@ -12,10 +12,10 @@ class CustomCategoryFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FiltersBloc, FiltersState>(
       builder: (context, state) {
-        if (state is FiltersLoading) {
+        if (state is FilterLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is FiltersLoaded) {
+        if (state is FilterLoaded) {
           var categoryFilters = state.filter.categoryFilters;
           return ListView.builder(
               shrinkWrap: true,
@@ -40,12 +40,13 @@ class CustomCategoryFilter extends StatelessWidget {
                       SizedBox(
                         height: 25,
                         child: Checkbox(
+                            activeColor: Theme.of(context).colorScheme.primary,
                             value: categoryFiltersItem.value,
                             onChanged: (bool? newValue) {
                               context.read<FiltersBloc>().add(
-                                  CategoryFilterUpdatedEvent(
-                                      categoryFilter:
-                                          categoryFiltersItem.copyWith(
+                                  UpdateCategoryFilter(
+                                      categoryFilter: categoryFiltersItem
+                                          .copyWith(
                                               value:
                                                   !categoryFiltersItem.value)));
                             }),

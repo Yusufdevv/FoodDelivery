@@ -11,10 +11,10 @@ class CustomPriceFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FiltersBloc, FiltersState>(
       builder: (context, state) {
-        if (state is FiltersLoading) {
+        if (state is FilterLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is FiltersLoaded) {
+        if (state is FilterLoaded) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: state.filter.priceFilters
@@ -23,7 +23,7 @@ class CustomPriceFilter extends StatelessWidget {
                 .map(
                   (price) => InkWell(
                     onTap: () {
-                      context.read<FiltersBloc>().add(PriceFilterUpdatedEvent(
+                      context.read<FiltersBloc>().add(UpdatePriceFilter(
                           priceFilter: state.filter.priceFilters[price.key]
                               .copyWith(
                                   value: !state
@@ -35,7 +35,10 @@ class CustomPriceFilter extends StatelessWidget {
                           vertical: 10, horizontal: 40),
                       decoration: BoxDecoration(
                           color: state.filter.priceFilters[price.key].value
-                              ? Theme.of(context).colorScheme.primary.withAlpha(100)
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withAlpha(100)
                               : Colors.white,
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
